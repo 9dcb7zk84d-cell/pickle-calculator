@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bread &amp; Butter pickles [Cornersmith]</title>
+<style>
+:root{color-scheme:light;--ink:#213827;--green:#284b36;--paper:#faf7ed;--line:#d9dfce;--muted:#475b49}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.55 system-ui,sans-serif}
+header{background:var(--green);color:#fffbed;padding:clamp(2rem,6vw,4rem) max(1rem,calc((100% - 68rem)/2))}
+h1,h2{font-family:Georgia,serif;line-height:1.08}h1{font-size:clamp(2.5rem,7vw,5rem);max-width:13ch;margin:.4rem 0 1rem}h2{font-size:1.8rem;margin:0 0 1rem}
+.eyebrow{font-size:.82rem;font-weight:750;letter-spacing:.16em;text-transform:uppercase}header p{max-width:44ch;margin-bottom:0}
+main{max-width:70rem;margin:auto;padding:1rem;display:grid;gap:1rem}
+.notice{background:#f0e4b7;border-radius:.8rem;padding:.85rem 1rem}
+.grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:1rem;align-items:start}
+.card{background:#fffdf6;border:1px solid var(--line);border-radius:1rem;padding:clamp(1rem,3vw,1.6rem)}
+label{display:block;font-weight:650;margin-top:.85rem}
+input,select,button{font:inherit;color:inherit}input:not([type=checkbox]),select,textarea{width:100%;min-width:0;border:1px solid #81917f;border-radius:.45rem;padding:.55rem;background:white}input[type=checkbox]{accent-color:var(--green)}
+.pair{display:grid;grid-template-columns:2fr 1fr;gap:.6rem;align-items:end}
+small,.muted{color:var(--muted)}small{display:block;margin-top:.3rem}
+.summary{background:#e7efdc;border-radius:.7rem;padding:.8rem 1rem;margin:0 0 1rem}.summary strong{font-size:1.5rem}
+table{width:100%;border-collapse:collapse}caption{text-align:left;font-weight:750;padding:.4rem 0}th,td{padding:.4rem 0;border-bottom:1px solid var(--line)}th{text-align:left;font-weight:500}td{text-align:right;padding-left:.6rem;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}button{cursor:pointer;background:var(--green);color:white;border:0;border-radius:.5rem;padding:.6rem 1rem}button:disabled{opacity:.55;cursor:default}
+:focus-visible{outline:3px solid #99702b;outline-offset:3px}a{color:#285039}li+li{margin-top:.45rem}textarea{min-height:12rem;margin-top:.6rem}#status{margin:0}
+@media(max-width:42rem){.grid{grid-template-columns:1fr}}
+@media print{body,.card,header,.notice,.summary{background:white;color:black}header{padding:0}h1{font-size:2rem;max-width:none}main{padding:0}.grid{display:block}.controls,.actions,#status,#copyFallback,.eyebrow,header p{display:none!important}.card{padding:.5rem 0;border:0}tr,li{break-inside:avoid}}
+.version-history{font-size:.7rem;color:var(--muted);line-height:1.4}.version-history p{margin:.2rem 0}
+
+header a,header .muted{color:inherit}.two,.summary{display:flex;gap:.8rem;flex-wrap:wrap}.two>div,.summary>div{flex:1 1 9rem}.warn{background:#f0e4b7;padding:.85rem;border-radius:.7rem}.sub,.note,footer{color:var(--muted);font-size:.9rem}td:first-child{text-align:left}td:last-child{white-space:nowrap}.controls button{margin-top:.6rem}.metric,.big{font-size:1.5rem;font-weight:700}aside .card+.card{margin-top:1rem}@media print{header a{display:none}}
+
+.version{font-size:.75rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><nav><a style="color:inherit" href="./">← All pickle recipes</a></nav><h1>Bread &amp; Butter pickles [Cornersmith]</h1></header>
+<main>
+<div class="grid">
+<section class="card controls">
+<h2>Your batch</h2>
+<div><label for="kg">Lebanese cucumbers (kg)</label><input id="kg" type="number" min="0.01" step="any" value="2"></div>
+<div><label for="acidity">Vinegar acidity</label><select id="acidity"><option value="5">5%</option><option value="8">8%</option></select></div>
+<div><label for="chilli"><input id="chilli" type="checkbox"> Include chilli flakes</label></div>
+<button id="print" type="button">Print / save PDF</button>
+<button id="copy" type="button">Copy batch recipe</button>
+<p id="status" role="status"></p>
+</section>
+<section class="card">
+<h2>Ingredients</h2>
+<p id="yield" aria-live="polite"></p>
+<table><thead><tr><th scope="col">Ingredient</th><th scope="col">Your batch</th></tr></thead><tbody id="ingredients"></tbody></table>
+<p class="note">The source gives no vinegar acidity. This calculator uses 5% as its baseline. Choose food-grade vinegar labelled with the selected acidity. Australian measures: 1 tbsp = 20 mL and 1 tsp = 5 mL.</p>
+</section>
+</div>
+<section class="card">
+<h2>Method</h2>
+<ol id="method">
+<li>Slice the cucumbers into thin rounds. Toss with the salting portion and refrigerate for 1–2 hours or overnight. Drain well.</li>
+<li>In a non-reactive saucepan, combine the vinegar, water, caster sugar, turmeric and brine salt. Stir to dissolve the sugar, then bring to a boil.</li>
+<li>Toss the drained cucumbers with the thinly sliced onions, mustard, fennel, dill and optional chilli.</li>
+<li>Pack loosely into clean, heatproof jars. Divide the peppercorns between the jars, then pour in hot brine to cover. Release trapped air, leave about 1 cm headspace and fit the lids.</li>
+<li>Refrigerate promptly at 4 °C or colder. For shelf-stable canning, use a tested recipe and its specified process.</li>
+</ol>
+<p class="note">The Cornersmith recipe refers to a separate heat-processing procedure on page 180. This calculator provides a refrigerated adaptation.</p>
+</section>
+<footer>
+<p>Adapted from Alex Elliott-Howery’s <a href="https://www.joincitro.com.au/news/bread-butter-cucumber-recipe">Cornersmith Bread &amp; Butter Cucumber Pickles</a>, p. 89.</p>
+<p class="version">v1.0 · 13 Nov 2026 · Added Cornersmith batch scaling and 5% / 8% vinegar options.</p>
+</footer>
+</main>
+<script>
+const get = id => document.getElementById(id);
+const fmt = new Intl.NumberFormat('en-AU', {maximumFractionDigits: 3}).format;
+let batchText = '';
+
+function calculate(kg, acidity, chilli) {
+  const scale = kg / 2;
+  const vinegar = 1000 * scale * 5 / acidity;
+  const water = 1500 * scale - vinegar;
+  return [
+    ['Lebanese cucumbers', fmt(kg) + ' kg'],
+    ['Salt for drawing out moisture', fmt(2 * scale) + ' tbsp'],
+    ['Salt for brine', fmt(scale) + ' tsp'],
+    [acidity + '% white wine vinegar', fmt(vinegar) + ' mL'],
+    ['Water for brine', fmt(water) + ' mL'],
+    ['Caster sugar', fmt(110 * scale) + ' g'],
+    ['Ground turmeric', fmt(0.5 * scale) + ' tsp'],
+    ['Small brown onions', fmt(2 * scale)],
+    ['Brown mustard seeds', fmt(3 * scale) + ' tsp'],
+    ['Fennel seeds', fmt(2 * scale) + ' tsp'],
+    ['Dill seeds', fmt(2 * scale) + ' tsp'],
+    ['Chilli flakes', chilli ? fmt(2 * scale) + ' tsp' : 'Omitted'],
+    ['Black peppercorns', Math.ceil(12 * scale) + ' to ' + Math.ceil(18 * scale)]
+  ];
+}
+
+function update() {
+  const kg = get('kg').valueAsNumber;
+  const table = get('ingredients');
+  const yieldText = get('yield');
+  table.replaceChildren();
+  get('status').textContent = '';
+  batchText = '';
+  if (!Number.isFinite(kg) || kg < 0.01) {
+    yieldText.textContent = 'Enter at least 0.01 kg of cucumbers.';
+    return;
+  }
+  yieldText.textContent = 'Prepare about ' + Math.ceil(3 * kg) + ' × 375 mL jars.';
+  const rows = calculate(kg, Number(get('acidity').value), get('chilli').checked);
+  for (const [label, amount] of rows) {
+    const row = table.insertRow();
+    row.insertCell().textContent = label;
+    row.insertCell().textContent = amount;
+  }
+  batchText = [
+    document.title, yieldText.textContent,
+    ...rows.map(row => row.join(': ')), '',
+    ...Array.from(get('method').children, (step, index) => (index + 1) + '. ' + step.textContent)
+  ].join('\n');
+}
+
+for (const id of ['kg', 'acidity', 'chilli']) get(id).addEventListener('input', update);
+get('print').onclick = () => window.print();
+get('copy').onclick = async () => {
+  if (!batchText) return;
+  try {
+    await navigator.clipboard.writeText(batchText);
+    get('status').textContent = 'Batch recipe copied.';
+  } catch {
+    get('status').textContent = 'Copy unavailable. Use Print / save PDF.';
+  }
+};
+update();
+</script>
+</body>
+</html>
