@@ -41,6 +41,7 @@ header a,header .muted{color:inherit}.two,.summary{display:flex;gap:.8rem;flex-w
 <div><label for="jar">Jar capacity (mL)</label><input id="jar" type="number" inputmode="decimal" min="1" step="any" value="375" required></div>
 <div><label for="acidity">Vinegar acidity</label><select id="acidity"><option value="5">5%</option><option value="8">8%</option></select></div>
 <div><label for="chilli"><input id="chilli" type="checkbox"> Include chilli flakes</label></div>
+<div><label for="crisper"><input id="crisper" type="checkbox"> Include calcium chloride flakes</label><small>Food-grade calcium chloride flakes (77% CaCl₂, E509). Dose: ⅛ Australian tsp per litre of brine.</small></div>
 <button id="print" type="button">Print / save PDF</button>
 <button id="copy" type="button">Copy batch recipe</button>
 <p id="status" role="status"></p>
@@ -56,7 +57,7 @@ header a,header .muted{color:inherit}.two,.summary{display:flex;gap:.8rem;flex-w
 <h2>Method</h2>
 <ol id="method">
 <li>Slice the cucumbers into thin rounds. Toss with the salting portion and refrigerate for 1–2 hours or overnight. Drain well.</li>
-<li>In a non-reactive saucepan, combine the vinegar, water, caster sugar, turmeric and brine salt. Stir to dissolve the sugar, then bring to a boil.</li>
+<li>In a non-reactive saucepan, combine the vinegar, water, caster sugar, turmeric and brine salt. Stir to dissolve the sugar, then bring to a boil. If using calcium chloride, dissolve the measured flakes in the brine.</li>
 <li>Toss the drained cucumbers with the thinly sliced onions, mustard, fennel, dill and optional chilli.</li>
 <li>Pack loosely into clean, heatproof jars. Divide the peppercorns between the jars, then pour in hot brine to cover. Release trapped air, leave about 1 cm headspace and fit the lids.</li>
 <li>Refrigerate promptly at 4 °C or colder. For shelf-stable canning, use a tested recipe and its specified process.</li>
@@ -66,14 +67,15 @@ header a,header .muted{color:inherit}.two,.summary{display:flex;gap:.8rem;flex-w
 <footer>
 <p>Adapted from Alex Elliott-Howery’s <a href="https://www.joincitro.com.au/news/bread-butter-cucumber-recipe">Cornersmith Bread &amp; Butter Cucumber Pickles</a>, p. 89.</p>
 <p class="version">v1.0 · 13 Nov 2026 · Added Cornersmith batch scaling and 5% / 8% vinegar options.</p>
-<p style="font-size:.75rem">v1.1 · 13 Nov 2026 · Added editable jar capacity in mL for yield estimates.</p></footer>
+<p style="font-size:.75rem">v1.1 · 13 Nov 2026 · Added editable jar capacity in mL for yield estimates.</p><p class="version">v1.2 · 13 Nov 2026 · Added optional calcium chloride at ⅛ Australian tsp per litre of brine.</p>
+</footer>
 </main>
 <script>
 const get = id => document.getElementById(id);
 const fmt = new Intl.NumberFormat('en-AU', {maximumFractionDigits: 3}).format;
 let batchText = '';
 
-function calculate(kg, acidity, chilli) {
+function calculate(kg, acidity, chilli, crisper) {
   const scale = kg / 2;
   const vinegar = 1000 * scale * 5 / acidity;
   const water = 1500 * scale - vinegar;
@@ -90,6 +92,7 @@ function calculate(kg, acidity, chilli) {
     ['Fennel seeds', fmt(2 * scale) + ' tsp'],
     ['Dill seeds', fmt(2 * scale) + ' tsp'],
     ['Chilli flakes', chilli ? fmt(2 * scale) + ' tsp' : 'Omitted'],
+    ['Calcium chloride flakes (optional)', crisper ? fmt(scale * 1.5 * 0.125) + ' tsp (' + fmt(scale * 1.5 * 0.625) + ' mL)' : 'Omitted'],
     ['Black peppercorns', Math.ceil(12 * scale) + ' to ' + Math.ceil(18 * scale)]
   ];
 }
@@ -109,7 +112,7 @@ function update() {
   yieldText.textContent = jar.validity.valid
     ? 'Prepare about ' + Math.ceil(1125 * kg / jar.valueAsNumber) + ' × ' + jar.value + ' mL jars.'
     : 'Enter a jar capacity of at least 1 mL.';
-  const rows = calculate(kg, Number(get('acidity').value), get('chilli').checked);
+  const rows = calculate(kg, Number(get('acidity').value), get('chilli').checked, get('crisper').checked);
   for (const [label, amount] of rows) {
     const row = table.insertRow();
     row.insertCell().textContent = label;
@@ -122,7 +125,7 @@ function update() {
   ].join('\n');
 }
 
-for (const id of ['kg', 'jar', 'acidity', 'chilli']) get(id).addEventListener('input', update);
+for (const id of ['kg', 'jar', 'acidity', 'chilli', 'crisper']) get(id).addEventListener('input', update);
 get('print').onclick = () => window.print();
 get('copy').onclick = async () => {
   if (!batchText) return;
