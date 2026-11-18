@@ -51,6 +51,7 @@ header a,header .muted{color:inherit}.two,.summary{display:flex;gap:.8rem;flex-w
 <section class="card">
 <h2>Ingredients</h2>
 <p id="yield" aria-live="polite"></p>
+<p class="note">Planning estimates include 10% extra jar capacity and 20% extra brine, based on a previous batch. Actual needs vary with packing density.</p>
 <table><thead><tr><th scope="col">Ingredient</th><th scope="col">Your batch</th></tr></thead><tbody id="ingredients"></tbody></table>
 <p class="note">The source gives no vinegar acidity. This calculator uses 5% as its baseline. Choose food-grade vinegar labelled with the selected acidity. Australian measures: 1 tbsp = 20 mL and 1 tsp = 5 mL.</p>
 </section>
@@ -88,22 +89,24 @@ let batchText = '';
 
 function calculate(kg, acidity, chilli, crisper) {
   const scale = kg / 2;
-  const vinegar = 1000 * scale * 5 / acidity;
-  const water = 1500 * scale - vinegar;
+  const brineScale = scale * 1.2;
+  const brineMl = 1500 * brineScale;
+  const vinegar = 1000 * brineScale * 5 / acidity;
+  const water = brineMl - vinegar;
   return [
     ['Lebanese cucumbers', fmt(kg) + ' kg'],
     ['Salt for drawing out moisture', fmt(2 * scale) + ' tbsp'],
-    ['Salt for brine', fmt(scale) + ' tsp'],
+    ['Salt for brine', fmt(brineScale) + ' tsp'],
     [acidity + '% white wine vinegar', fmt(vinegar) + ' mL'],
     ['Water for brine', fmt(water) + ' mL'],
-    ['Caster sugar', fmt(110 * scale) + ' g'],
-    ['Ground turmeric', fmt(0.5 * scale) + ' tsp'],
+    ['Caster sugar', fmt(110 * brineScale) + ' g'],
+    ['Ground turmeric', fmt(0.5 * brineScale) + ' tsp'],
     ['Small brown onions', fmt(2 * scale)],
     ['Brown mustard seeds', fmt(3 * scale) + ' tsp'],
     ['Fennel seeds', fmt(2 * scale) + ' tsp'],
     ['Dill seeds', fmt(2 * scale) + ' tsp'],
     ['Chilli flakes', chilli ? fmt(2 * scale) + ' tsp' : 'Omitted'],
-    ['Calcium chloride flakes (optional)', crisper ? fmt(scale * 1.5 * 0.125) + ' tsp (' + fmt(scale * 1.5 * 0.625) + ' mL)' : 'Omitted'],
+    ['Calcium chloride flakes (optional)', crisper ? fmt(brineMl / 1000 * 0.125) + ' tsp (' + fmt(brineMl / 1000 * 0.625) + ' mL)' : 'Omitted'],
     ['Black peppercorns', Math.ceil(12 * scale) + ' to ' + Math.ceil(18 * scale)]
   ];
 }
@@ -120,8 +123,9 @@ function update() {
     return;
   }
   const jar = get('jar');
+  const estimatedCapacityMl = 1237.5 * kg;
   yieldText.textContent = jar.validity.valid
-    ? 'Prepare about ' + Math.ceil(1125 * kg / jar.valueAsNumber) + ' × ' + jar.value + ' mL jars.'
+    ? 'Estimated jar capacity: ' + fmt(estimatedCapacityMl) + ' mL. Prepare ' + Math.ceil(estimatedCapacityMl / jar.valueAsNumber) + ' × ' + jar.value + ' mL jars.'
     : 'Enter a jar capacity of at least 1 mL.';
   const rows = calculate(kg, Number(get('acidity').value), get('chilli').checked, get('crisper').checked);
   for (const [label, amount] of rows) {
